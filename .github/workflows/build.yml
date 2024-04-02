@@ -18,5 +18,7 @@ jobs:
         with:
           go-version: ${{ matrix.go-version }}
           check-latest: true
-      - name: Build
-        run: go build -v ./cmd/agent.go
+      - name: Build ARM64
+        run: GOOS=linux GOARCH=arm64 go build -o vitoagent_arm64 ./cmd/agent.go
+      - name: Build AMD64
+        run: GOOS=linux GOARCH=amd64 go build -o vitoagent_amd64 ./cmd/agent.go
