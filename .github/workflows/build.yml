@@ -1,9 +1,8 @@
 name: Build
 
 on:
-  push:
-    branches:
-      - main
+  release:
+    types: [created]
 
 jobs:
   build:
@@ -22,3 +21,17 @@ jobs:
         run: GOOS=linux GOARCH=arm64 go build -o vitoagent_arm64 ./cmd/agent.go
       - name: Build AMD64
         run: GOOS=linux GOARCH=amd64 go build -o vitoagent_amd64 ./cmd/agent.go
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./vitoagent_arm64
+          asset_name: vitoagent_arm64
+          asset_content_type: application/octet-stream
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./vitoagent_amd64
+          asset_name: vitoagent_amd64
+          asset_content_type: application/octet-stream
