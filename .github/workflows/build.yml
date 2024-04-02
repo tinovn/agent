@@ -23,8 +23,8 @@ jobs:
         run: GOOS=linux GOARCH=arm go build -o vitoagent_arm ./cmd/agent.go
       - name: Build AMD64
         run: GOOS=linux GOARCH=amd64 go build -o vitoagent_amd64 ./cmd/agent.go
-      - name: Build AMD386
-        run: GOOS=linux GOARCH=amd386 go build -o vitoagent_amd386 ./cmd/agent.go
+      - name: Build AMD
+        run: GOOS=linux GOARCH=386 go build -o vitoagent_amd ./cmd/agent.go
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         env:
@@ -58,6 +58,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./vitoagent_amd386
-          asset_name: vitoagent_amd386
+          asset_path: ./vitoagent_amd
+          asset_name: vitoagent_amd
           asset_content_type: application/octet-stream
