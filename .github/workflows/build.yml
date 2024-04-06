@@ -18,13 +18,13 @@ jobs:
           go-version: ${{ matrix.go-version }}
           check-latest: true
       - name: Build ARM64
-        run: GOOS=linux GOARCH=arm64 go build -o vitoagent_arm64 ./cmd/agent.go
+        run: GOOS=linux GOARCH=arm64 go build -o vitoagent-linux-arm64 ./cmd/agent.go
       - name: Build ARM
-        run: GOOS=linux GOARCH=arm go build -o vitoagent_arm ./cmd/agent.go
+        run: GOOS=linux GOARCH=arm go build -o vitoagent-linux-arm ./cmd/agent.go
       - name: Build AMD64
-        run: GOOS=linux GOARCH=amd64 go build -o vitoagent_amd64 ./cmd/agent.go
+        run: GOOS=linux GOARCH=amd64 go build -o vitoagent-linux-amd64 ./cmd/agent.go
       - name: Build AMD
-        run: GOOS=linux GOARCH=386 go build -o vitoagent_amd ./cmd/agent.go
+        run: GOOS=linux GOARCH=386 go build -o vitoagent-linux-amd ./cmd/agent.go
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         env:
