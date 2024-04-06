@@ -31,8 +31,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./vitoagent_arm64
-          asset_name: vitoagent_arm64
+          asset_path: ./vitoagent-linux-arm64
+          asset_name: vitoagent-linux-arm64
           asset_content_type: application/octet-stream
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
@@ -40,8 +40,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./vitoagent_arm
-          asset_name: vitoagent_arm
+          asset_path: ./vitoagent-linux-arm
+          asset_name: vitoagent-linux-arm
           asset_content_type: application/octet-stream
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
@@ -49,8 +49,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./vitoagent_amd64
-          asset_name: vitoagent_amd64
+          asset_path: ./vitoagent-linux-amd64
+          asset_name: vitoagent-linux-amd64
           asset_content_type: application/octet-stream
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
@@ -58,6 +58,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./vitoagent_amd
-          asset_name: vitoagent_amd
+          asset_path: ./vitoagent-linux-amd
+          asset_name: vitoagent-linux-amd
           asset_content_type: application/octet-stream
