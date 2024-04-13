@@ -2,7 +2,6 @@ package disk
 
 import (
 	"fmt"
-	"os"
 	"syscall"
 )
 
@@ -13,15 +12,8 @@ type DiskInfo struct {
 }
 
 func GetDiskInfo() DiskInfo {
-	// Get the current working directory
-	dir, err := os.Getwd()
-	if err != nil {
-		fmt.Println("Error:", err)
-		panic(err)
-	}
-
 	// Get disk usage of the current working directory
-	info, err := diskUsage(dir)
+	info, err := diskUsage("/")
 	if err != nil {
 		fmt.Println("Error:", err)
 		panic(err)
