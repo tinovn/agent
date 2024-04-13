@@ -15,9 +15,9 @@ import (
 
 type Payload struct {
 	Load        float64 `json:"load"`
-	DiskTotal   uint64  `json:"disk_total"`
-	DiskFree    uint64  `json:"disk_free"`
-	DiskUsed    uint64  `json:"disk_used"`
+	DiskTotal   string  `json:"disk_total"`
+	DiskFree    string  `json:"disk_free"`
+	DiskUsed    string  `json:"disk_used"`
 	MemoryTotal string  `json:"memory_total"`
 	MemoryFree  string  `json:"memory_free"`
 	MemoryUsed  string  `json:"memory_used"`

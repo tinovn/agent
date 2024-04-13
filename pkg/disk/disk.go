@@ -2,13 +2,14 @@ package disk
 
 import (
 	"fmt"
-	"syscall"
+	"os/exec"
+	"strings"
 )
 
 type DiskInfo struct {
-	Total uint64
-	Free  uint64
-	Used  uint64
+	Total string
+	Free  string
+	Used  string
 }
 
 func GetDiskInfo() DiskInfo {
@@ -24,13 +25,29 @@ func GetDiskInfo() DiskInfo {
 
 // DiskUsage returns the disk usage of the path in bytes
 func diskUsage(path string) (usage DiskInfo, err error) {
-	fs := &syscall.Statfs_t{}
-	err = syscall.Statfs(path, fs)
+	// Run the df command to get disk information
+	cmd := exec.Command("df", "-BM", path) // Use -BM option to get sizes in megabytes
+	output, err := cmd.Output()
 	if err != nil {
+		fmt.Println("Error running df command:", err)
 		return
 	}
-	usage.Total = (fs.Blocks * uint64(fs.Bsize)) / (1024 * 1024)
-	usage.Free = (fs.Bfree * uint64(fs.Bsize)) / (1024 * 1024)
-	usage.Used = usage.Total - usage.Free
+
+	// Parse the output to get disk total, usage, and free
+	lines := strings.Split(string(output), "\n")
+	if len(lines) < 2 {
+		fmt.Println("Unexpected output from df command")
+		return
+	}
+
+	fields := strings.Fields(lines[1])
+	if len(fields) < 4 {
+		fmt.Println("Unexpected output format")
+		return
+	}
+
+	usage.Total = strings.Replace(fields[1], "M", "", 1)
+	usage.Used = strings.Replace(fields[2], "M", "", 1)
+	usage.Free = strings.Replace(fields[3], "M", "", 1)
 	return
 }
