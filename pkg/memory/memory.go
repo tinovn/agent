@@ -32,12 +32,17 @@ func GetMemoryInfo() MemoryInfo {
 		value := fields[1]
 		switch key {
 		case "MemTotal":
+			totalMem, _ = strconv.ParseInt(value, 10, 64)
 			memoryInfo.Total = value
-		case "MemFree":
-			memoryInfo.Free = value
 		case "MemAvailable":
-			memoryInfo.Used = value
+			availableMem, _ = strconv.ParseInt(value, 10, 64)
+			memoryInfo.Free = value
 		}
 	}
+
+	// Calculate the Used Memory
+	usedMem := totalMem - availableMem
+	memoryInfo.Used = strconv.FormatInt(usedMem, 10)
+
 	return memoryInfo
 }
