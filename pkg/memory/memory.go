@@ -3,6 +3,7 @@ package memory
 import (
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -20,6 +21,9 @@ func GetMemoryInfo() MemoryInfo {
 		fmt.Println("Error reading /proc/meminfo:", err)
 		return memoryInfo
 	}
+
+	//Declare Variables for Calculation
+	var totalMem, availableMem int64
 
 	// Parse the contents to get total, used, and free memory
 	lines := strings.Split(string(memInfo), "\n")
