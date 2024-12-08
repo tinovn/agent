@@ -7,10 +7,10 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/vitodeploy/agent/pkg/config"
-	"github.com/vitodeploy/agent/pkg/cpu"
-	"github.com/vitodeploy/agent/pkg/disk"
-	"github.com/vitodeploy/agent/pkg/memory"
+	"github.com/tinovn/agent/pkg/config"
+	"github.com/tinovn/agent/pkg/cpu"
+	"github.com/tinovn/agent/pkg/disk"
+	"github.com/tinovn/agent/pkg/memory"
 )
 
 type Payload struct {
