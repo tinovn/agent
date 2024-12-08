@@ -1,4 +1,4 @@
-name: Build
+name: Build and Upload Release Assets
 
 on:
   release:
@@ -7,57 +7,31 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        go-version: ["1.21"]
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
       - name: Setup Go
         uses: actions/setup-go@v4
         with:
-          go-version: ${{ matrix.go-version }}
-          check-latest: true
-      - name: Build ARM64
-        run: GOOS=linux GOARCH=arm64 go build -o tinoagent-linux-arm64 ./cmd/agent.go
-      - name: Build ARM
-        run: GOOS=linux GOARCH=arm go build -o tinoagent-linux-arm ./cmd/agent.go
-      - name: Build AMD64
-        run: GOOS=linux GOARCH=amd64 go build -o tinoagent-linux-amd64 ./cmd/agent.go
-      - name: Build AMD
-        run: GOOS=linux GOARCH=386 go build -o tinoagent-linux-amd ./cmd/agent.go
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
+          go-version: "1.21"
+
+      - name: Build binaries
+        run: |
+          mkdir -p dist
+          GOOS=linux GOARCH=amd64 go build -o dist/tinoagent-linux-amd64 ./cmd/agent.go
+          GOOS=linux GOARCH=arm64 go build -o dist/tinoagent-linux-arm64 ./cmd/agent.go
+          GOOS=linux GOARCH=386 go build -o dist/tinoagent-linux-amd ./cmd/agent.go
+          GOOS=linux GOARCH=arm go build -o dist/tinoagent-linux-arm ./cmd/agent.go
+
+      - name: Upload Release Assets
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            dist/tinoagent-linux-arm64
+            dist/tinoagent-linux-arm
+            dist/tinoagent-linux-amd64
+            dist/tinoagent-linux-amd
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
-        with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./tinoagent-linux-arm64
-          asset_name: tinoagent-linux-arm64
-          asset_content_type: application/octet-stream
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
-        with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./tinoagent-linux-arm
-          asset_name: tinoagent-linux-arm
-          asset_content_type: application/octet-stream
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
-        with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./tinoagent-linux-amd64
-          asset_name: tinoagent-linux-amd64
-          asset_content_type: application/octet-stream
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
-        with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./tinoagent-linux-amd
-          asset_name: tinoagent-linux-amd
-          asset_content_type: application/octet-stream
